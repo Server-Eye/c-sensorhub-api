@@ -1,0 +1,49 @@
+using gcc : 4.7 ;
+
+seapi_version = "3.51.21" ;
+
+rule versioning ( name : type ? : property-set )
+{
+	echo "working on: " $(name) $(type) ;	
+	if $(type) = "STATIC_LIB"
+	{
+		newname = "libServerEye_Extern_API" ;		
+		echo " building static lib " $(name) $(type) " --> " $(newname) ;
+		return $(newname) ;
+	}
+
+	if $(type) = "SHARED_LIB"
+	{		
+		newname = "libServerEye_Extern_API.so."$(seapi_version) ;
+		echo " building shared lib " $(name) $(type) " --> " $(newname) ;
+		return $(newname) ;
+	}
+	else
+	{
+		return "" ;
+	}
+}
+
+lib ServerEye_Extern_API 
+	: src/defaults.cpp src/StringConverter.cpp src/LogImpl.cpp src/TimeHelper.cpp src/ConnectionManager.cpp 
+		src/RSMData.cpp src/ResultData.cpp src/PushResultData.cpp src/NotifyResultData.cpp src/NotifyMessageData.cpp
+		src/CustomerData.cpp src/CreateKeyResultData.cpp src/CreateCustomerResultData.cpp src/ContainerResultData.cpp
+		src/ContainerData.cpp src/AgentResultData.cpp src/AgentData.cpp src/AllAgentsResultData.cpp 
+		src/APIConnectorImpl.cpp src/ObjectConverter.cpp include/json_spirit/json_spirit_reader.cpp
+		include/json_spirit/json_spirit_writer.cpp include/json_spirit/json_spirit_value.cpp
+	: <tag>@versioning <cxxflags>-std=c++11 <include>include <define>BOOST_LOG_DYN_LINK ;
+
+alias install : install-lib install-header ;
+
+install install-lib   
+	: ServerEye_Extern_API 
+	: <variant>release:<location>dist/ServerEye.Extern.API/lib/release
+		<variant>debug:<location>dist/ServerEye.Extern.API/lib/debug ;
+
+install install-header
+	: src/Agent.h src/AgentSetting.h src/APIConnector.h src/Container.h src/Log.h src/NotifyMessage.h 
+		src/PushCallBack.h src/Results.h src/RSM.h src/SEAPIForwards.h src/SEAPIIncludes.h 
+		src/SEObject.h
+	: <location>dist/ServerEye.Extern.API/include ;
+	
+
