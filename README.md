@@ -1,6 +1,8 @@
 # c-sensorhub-api
 The ServerEye.Extern.API can be used to create a custom Sensorhub. It can be included or be a part of any product that wants to save monitoring data in the Server-Eye cloud.
 
+## Usage
+Please see the [wiki](https://github.com/Server-Eye/c-sensorhub-api/wiki) for further information.
 
 ## Dependencies
 The project uses the following libraries:
