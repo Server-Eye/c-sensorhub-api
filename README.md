@@ -41,4 +41,4 @@ The project contains a config file ("Jamroot") for the boost.build system. You c
 * compile the release and debug versions.
 * copy all necessary files (includes & libs) to the new folder `dist`.
 		
-If you compile the project manually please use -std=c++1 to enablethe c++11 standard.
+If you compile the project manually please use -std=c++1 to enable the c++11 standard.
